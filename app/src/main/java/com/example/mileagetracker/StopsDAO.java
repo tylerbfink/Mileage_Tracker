@@ -22,7 +22,10 @@ public interface StopsDAO {
     void updateStop(Stops stops);
 
     @Delete
-    void deleteStop(Stops stop);
+    void deleteStop(Stops stops);
+
+    @Query("DELETE FROM STOPS WHERE id = :id")
+    void deleteById(int id);
 
     @Query("Select * from STOPS where id = :id")
     Stops loadStopByID(int id);

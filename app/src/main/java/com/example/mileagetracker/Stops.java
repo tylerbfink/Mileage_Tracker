@@ -32,6 +32,10 @@ public class Stops {
         this.id = id;
     }
 
+    public void setId (int id) {
+        this.id = id;
+    }
+
     public Date getDate() {
         return dateTime;
     }

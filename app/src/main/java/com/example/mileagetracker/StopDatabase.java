@@ -20,7 +20,6 @@ public abstract class StopDatabase extends RoomDatabase {
                     DATABASE_NAME)
                     .fallbackToDestructiveMigration().build();
         }
-
         return sInstance;
     }
 

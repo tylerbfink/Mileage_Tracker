@@ -37,9 +37,23 @@ public class MainActivity extends AppCompatActivity {
         protected Integer doInBackground(Integer... integers) {
 
             StopDatabase stopDatabase = StopDatabase.getInstance(context);
-            Stops newStop = new Stops (java.util.Calendar.getInstance().getTime());
-            stopDatabase.stopsDAO().insertStop(newStop);
 
+
+            Stops newStop = new Stops (java.util.Calendar.getInstance().getTime());
+
+
+            //newStop.setId(1);
+
+            newStop.setDateTime(new Date());
+            newStop.setStreet("Woodlawn");
+            newStop.setCity("Guelph");
+            newStop.setStart_odometer(101255);
+            newStop.setEnd_odometer(101275);
+
+            //stopDatabase.stopsDAO().updateStop(newStop);
+            
+            //stopDatabase.stopsDAO().insertStop(newStop);
+            //stopDatabase.stopsDAO().deleteById(4);
             stopList = stopDatabase.stopsDAO().loadAllStops();
 
             return null;
@@ -49,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
 
-            saved_text.setText(stopList.toString());
+            //saved_text.setText(String.valueOf(stopList.size()));
+           //saved_text.setText(String.valueOf(stopList.get(0).getDate()));
         }
     }
 }
