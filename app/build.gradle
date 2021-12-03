@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.mileagetracker"
-        minSdk 26
+        minSdk 21
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -32,9 +32,33 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-    testImplementation 'junit:junit:5.7.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // CameraX
+    implementation 'androidx.camera:camera-core:1.1.0-alpha11'
+    implementation "androidx.camera:camera-camera2:1.1.0-alpha11"
+    implementation "androidx.camera:camera-lifecycle:1.1.0-alpha11"
+
+    // CameraX View class
+    implementation "androidx.camera:camera-view:1.0.0-alpha31"
+
+    // Room DB
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+
+    // Vision Services
+    implementation 'com.google.android.gms:play-services-vision-common:19.1.3'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+
+    testImplementation'org.junit:junit-bom:5.8.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+
+    // If you want to additionally use the CameraX Extensions library
+    //implementation "androidx.camera:camera-extensions:1.0.0-alpha31"
+
+    //implementation "com.google.guava:guava:31.0.1-jre"
+
+
+
 }

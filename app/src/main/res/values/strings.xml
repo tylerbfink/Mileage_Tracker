@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">Mileage Tracker</string>
-    <string name="welcome">Welcome</string>
+    <string name="blank"></string>
+    <string name="get_text">Get Text</string>
+    <string name="main_title">Mileage Tracker</string>
+    <string name="add_stop">Add Stop</string>
+
+    <string-array name="main_options_array">
+        <item>Add Stops</item>
+        <item>Edit Stops</item>
+        <item>Summary - Today</item>
+        <item>Summary - Week</item>
+        <item>Send Log</item>
+        <item>Settings</item>
+        <item>About</item>
+    </string-array>
 </resources>
