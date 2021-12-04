@@ -1,6 +1,5 @@
 package com.example.mileagetracker;
 
-
 import android.content.Context;
 
 import androidx.room.Database;

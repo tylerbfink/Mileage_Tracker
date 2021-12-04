@@ -1,81 +1,98 @@
 package com.example.mileagetracker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class AddStop extends AppCompatActivity implements LocationListener {
+public class AddStop extends AppCompatActivity {
+
+    private static final String[] PERMISSIONS_REQUIRED = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+    private static final int LOCATION_REQUEST_CODE = 10;
+
+    TextView current_street;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stop);
-        getCompleteAddressString()
-    }
 
-    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
-        String strAdd = "";
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        try {
-            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
-            if (addresses != null) {
-                Address returnedAddress = addresses.get(0);
-                StringBuilder strReturnedAddress = new StringBuilder("");
-
-                for (int i = 0; i <= returnedAddress.getMaxAddressLineIndex(); i++) {
-                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
-                }
-                strAdd = strReturnedAddress.toString();
-                Log.w("My address", strReturnedAddress.toString());
-            } else {
-                Log.w("My address", "No Address returned!");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.w("My address", "Can't get Address!");
+        // checks if location permissions have been given or asks for them
+        if (!hasPermission()) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS_REQUIRED, LOCATION_REQUEST_CODE);
         }
-        return strAdd;
-    }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        editLocation.setText("");
-        pb.setVisibility(View.INVISIBLE);
-        Toast.makeText(
-                getBaseContext(),
-                "Location changed: Lat: " + loc.getLatitude() + " Lng: "
-                        + loc.getLongitude(), Toast.LENGTH_SHORT).show();
-        String longitude = "Longitude: " + loc.getLongitude();
-        Log.v(TAG, longitude);
-        String latitude = "Latitude: " + loc.getLatitude();
-        Log.v(TAG, latitude);
+        current_street = (TextView) findViewById(R.id.current_street);
 
-        /*------- To get city name from coordinates -------- */
-        String cityName = null;
-        Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
-        List<Address> addresses;
         try {
-            addresses = gcd.getFromLocation(loc.getLatitude(),
-                    loc.getLongitude(), 1);
-            if (addresses.size() > 0) {
-                System.out.println(addresses.get(0).getLocality());
-                cityName = addresses.get(0).getLocality();
-            }
+            getStreet();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        String s = longitude + "\n" + latitude + "\n\nMy Current City is: "
-                + cityName;
-        editLocation.setText(s);
+
+    }
+
+    // returns true if location permissions already granted
+    private boolean hasPermission() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    // requests location permissions if not already granted
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == LOCATION_REQUEST_CODE) {
+            if (hasPermission()) {
+                // placeholder to continue
+            } else {
+                Toast.makeText(this, "Location permission required for this feature!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void getStreet() throws IOException {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            List <Address> currentFullAddress = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            current_street.setText(String.valueOf(currentFullAddress.get(0).getThoroughfare()));
+        }
+        catch (NullPointerException e) {
+            Toast.makeText(this, "Location not found!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

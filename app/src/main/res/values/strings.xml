@@ -6,8 +6,8 @@
     <string name="add_stop">Add Stop</string>
 
     <string-array name="main_options_array">
-        <item>Add Stops</item>
-        <item>Edit Stops</item>
+        <item>Add Location</item>
+        <item>Edit Location</item>
         <item>Summary - Today</item>
         <item>Summary - Week</item>
         <item>Send Log</item>

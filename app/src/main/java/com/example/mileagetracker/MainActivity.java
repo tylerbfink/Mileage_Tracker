@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //DB_function db_function = new DB_function();
-        //db_function.execute();
+        DB_function db_function = new DB_function();
+        db_function.execute();
 
         if (hasPermission()) {
             //startCamera(); //start camera if permission has been granted by user;
