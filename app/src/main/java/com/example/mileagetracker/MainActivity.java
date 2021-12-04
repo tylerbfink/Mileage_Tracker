@@ -23,15 +23,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.text.Text;
-import com.google.mlkit.vision.text.TextRecognition;
-import com.google.mlkit.vision.text.TextRecognizer;
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
-
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -95,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        DB_function db_function = new DB_function();
-        db_function.execute();
+        //DB_function db_function = new DB_function();
+        //db_function.execute();
 
         if (hasPermission()) {
             //startCamera(); //start camera if permission has been granted by user;
@@ -170,9 +161,9 @@ public class MainActivity extends AppCompatActivity {
 
             //stopDatabase.stopsDAO().updateStop(newStop);
 
-            stopDatabase.stopsDAO().insertStop(newStop);
+            //stopDatabase.Dao().insertStop(newStop);
             //stopDatabase.stopsDAO().deleteById(4);
-            stopList = stopDatabase.stopsDAO().loadAllStops();
+            //stopList = stopDatabase.Dao().loadAllStops();
 
             return null;
         }

@@ -75,7 +75,6 @@ public class CameraActivity extends AppCompatActivity {
         take_photo_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                     //starts async task to convert image to text
                     //CameraActivity.Process_image process_image = new CameraActivity.Process_image();
                     //process_image.execute();

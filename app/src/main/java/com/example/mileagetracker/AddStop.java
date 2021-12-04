@@ -30,6 +30,8 @@ public class AddStop extends AppCompatActivity {
 
     TextView current_street;
 
+    GetStreet getStreet = new GetStreet();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +45,19 @@ public class AddStop extends AppCompatActivity {
         current_street = (TextView) findViewById(R.id.current_street);
 
         try {
+            current_street.setText(getStreet.returnStreet(this));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*
+        try {
             getStreet();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
 
     }
 

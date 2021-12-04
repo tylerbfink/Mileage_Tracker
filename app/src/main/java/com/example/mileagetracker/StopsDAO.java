@@ -1,6 +1,7 @@
 package com.example.mileagetracker;
 
-import androidx.room.Dao;
+
+import androidx.lifecycle.LiveData;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -9,11 +10,11 @@ import androidx.room.Update;
 import java.util.Date;
 import java.util.List;
 
-@Dao
+@androidx.room.Dao
 public interface StopsDAO {
 
     @Query("Select * from STOPS")
-    List<Stops> loadAllStops();
+    LiveData<List<Stops>> loadAllStops();
 
     @Insert
     void insertStop(Stops stops);
@@ -32,5 +33,4 @@ public interface StopsDAO {
 
     @Query("Select * from STOPS where dateTime = :dateTime")
     Stops loadStopByDate(Date dateTime);
-
 }
