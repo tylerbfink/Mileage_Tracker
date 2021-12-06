@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
             //stopDatabase.stopsDAO().updateStop(newStop);
 
-            //stopDatabase.Dao().insertStop(newStop);
+            stopDatabase.stopsDAO().insertStop(newStop);
             //stopDatabase.stopsDAO().deleteById(4);
             //stopList = stopDatabase.Dao().loadAllStops();
 
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
 
-            saved_text.setText(String.valueOf(stopList.size()));
+            //saved_text.setText(String.valueOf(stopList.size()));
             //saved_text.setText(String.valueOf(stopList.get(0).getDate()));
         }
     }

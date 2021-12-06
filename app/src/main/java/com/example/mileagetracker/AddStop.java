@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -49,16 +50,6 @@ public class AddStop extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*
-        try {
-            getStreet();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-         */
-
     }
 
     // returns true if location permissions already granted
@@ -104,5 +95,12 @@ public class AddStop extends AppCompatActivity {
             Toast.makeText(this, "Location not found!", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddStop.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

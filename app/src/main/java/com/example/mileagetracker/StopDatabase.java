@@ -17,21 +17,22 @@ public abstract class StopDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "stoplist";
 
-    private static StopDatabase sInstance;
+    private static StopDatabase instance;
     public abstract StopsDAO stopsDAO();
 
     //instance of stopsDB
     public static synchronized StopDatabase getInstance(Context context) {
-        if (sInstance == null) {
-            sInstance = Room.databaseBuilder(context.getApplicationContext(), StopDatabase.class,
+        if (instance == null) {
+            instance = Room.databaseBuilder(context.getApplicationContext(), StopDatabase.class,
                     DATABASE_NAME)
                     .fallbackToDestructiveMigration()
-                    .addCallback(stopDbCallback)
+                    //.addCallback(stopDbCallback)
                     .build();
         }
-        return sInstance;
+        return instance;
     }
 
+    /*
     //callback for stopsDB
     private static RoomDatabase.Callback stopDbCallback = new RoomDatabase.Callback() {
         @Override
@@ -51,4 +52,6 @@ public abstract class StopDatabase extends RoomDatabase {
             return null;
         }
     }
+
+     */
 }

@@ -7,12 +7,12 @@ import androidx.lifecycle.LiveData;
 import java.util.Date;
 import java.util.List;
 
-public class StopsIO {
+public class StopsRepository {
 
     private StopsDAO stopDAO;
     private LiveData<List<Stops>> allStops;
 
-    public StopsIO(Application application) {
+    public StopsRepository(Application application) {
         StopDatabase stopDatabase = StopDatabase.getInstance(application);
         stopDAO = stopDatabase.stopsDAO();
         allStops = stopDAO.loadAllStops();
