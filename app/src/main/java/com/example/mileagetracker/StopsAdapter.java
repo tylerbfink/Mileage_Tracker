@@ -8,7 +8,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class StopsAdapter extends RecyclerView.Adapter<StopsAdapter.StopHolder> {
@@ -27,7 +30,13 @@ public class StopsAdapter extends RecyclerView.Adapter<StopsAdapter.StopHolder> 
     public void onBindViewHolder(@NonNull StopHolder holder, int position) {
         Stops currentStop = stops.get(position);
 
-        holder.stop_date_text.setText(String.valueOf(currentStop.getDate()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy - hh:mm a");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentStop.getDate());
+
+        Date selectedDate = calendar.getTime();
+        holder.stop_date_text.setText(dateFormat.format(selectedDate));
+
         if (currentStop.getStreet() != null) {
             holder.street_text.setText(currentStop.getStreet());
         }

@@ -1,0 +1,58 @@
+Main
+-ui look
+
+Add Location
+-add camera view of km
+	-add zoom time permitting
+	-add save text
+	-add return button
+*-add gps street
+*-add gps city
+-add favourites
+-error check
+	-street name length
+	-city length
+	-km start 
+		*-limit length
+		-check multiple decimals
+	-km end
+		*-limit length
+		-check multiple decimals
+-save stop - saving if auto date is erased and date is blank
+
+Edit Location
+-functionality
+	-modify
+	-delete
+
+
+*****************************
+Combine to Summary - buttons today/week/custom
+*-mimic date to add location view
+
+Summary Today
+-filter todays date
+
+Summary Week
+-filter week
+
+Send Log
+-generate .csv to email
+-form to filter dates to send
+-add email functionality
+	
+-add form look **time permitting**
+
+Settings
+-add email change
+
+About
+-contact developer
+-credit
+	-past Tyler app
+	-help sources
+-bugs (camera no zoom?)
+
+-One time splash screen? (time)
+
+

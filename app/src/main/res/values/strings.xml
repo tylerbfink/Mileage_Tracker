@@ -4,10 +4,21 @@
     <string name="get_text">Get Text</string>
     <string name="main_title">Mileage Tracker</string>
     <string name="add_stop">Add Stop</string>
+    <string name="hint_street">Street</string>
+    <string name="hint_city">City</string>
+    <string name="hint_date">Date</string>
+    <string name="hint_start_km">Starting KM</string>
+    <string name="hint_end_km">Ending KM</string>
+    <string name="save_stop">Save</string>
+    <string name="back">Back</string>
+    <string name="favourite_street_city">Favourite Street/City</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="edit_stop_title">Edit Stop</string>
+    <string name="click_stop">Click Stop to Edit</string>
 
     <string-array name="main_options_array">
-        <item>Add Location</item>
-        <item>Edit Location</item>
+        <item>Add Stop</item>
+        <item>Edit Stop</item>
         <item>Summary - Today</item>
         <item>Summary - Week</item>
         <item>Send Log</item>

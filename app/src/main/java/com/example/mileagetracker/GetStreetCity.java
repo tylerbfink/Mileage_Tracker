@@ -1,6 +1,5 @@
 package com.example.mileagetracker;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Address;
@@ -13,11 +12,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class GetStreet {
+public class GetStreetCity {
 
-    public String returnStreet(Context context) throws IOException {
+    public static String gpsCity = "";
+    public static String gpsStreet = "";
 
-        String currentStreet = "";
+    private static List<Address> currentFullAddress;
+
+
+    public static void getPosition(Context context) throws IOException {
 
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
@@ -25,13 +28,12 @@ public class GetStreet {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
 
         try {
-            List<Address> currentFullAddress = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-           currentStreet = currentFullAddress.get(0).getThoroughfare();
+            currentFullAddress = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            gpsStreet = currentFullAddress.get(0).getThoroughfare();
+            gpsCity = currentFullAddress.get(0).getLocality();
         }
         catch (NullPointerException e) {
-            Toast.makeText(context, "Location not found!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Location not found!", Toast.LENGTH_SHORT).show();
         }
-
-        return currentStreet;
     }
 }

@@ -36,9 +36,7 @@ public class Summary extends AppCompatActivity {
                 adapter.setStops(stops);
             }
         });
-
     }
-
 
     @Override
     public void onBackPressed() {

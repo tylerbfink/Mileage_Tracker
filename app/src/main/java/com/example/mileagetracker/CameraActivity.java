@@ -2,6 +2,7 @@ package com.example.mileagetracker;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
@@ -46,6 +47,8 @@ public class CameraActivity extends AppCompatActivity {
     // variables for camera permissions
     private static final String[] PERMISSION_CAMERA = new String[]{Manifest.permission.CAMERA};
     private static final int CAMERA_CODE = 20;
+
+    ProcessCameraProvider cameraProvider;
 
     ImageProxy thisProxy;
     InputImage imageProcess;
@@ -122,7 +125,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
+                    cameraProvider = cameraProviderFuture.get();
                     bindImageAnalysis(cameraProvider);
                 }
                 catch (ExecutionException | InterruptedException e) {
@@ -195,7 +198,7 @@ public class CameraActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {  //failure text recognition
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Try again!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "No text recognized!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -203,7 +206,11 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //cameraProvider.unbindAll();
+        cameraProvider.unbindAll();
+
+        Intent intent = new Intent(CameraActivity.this, AddStop.class);
+        startActivity(intent);
+        finish();
     }
 }
 
