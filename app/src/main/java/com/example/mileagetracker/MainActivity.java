@@ -29,15 +29,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String[] PERMISSIONS_REQUIRED = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
-    private static final int READ_WRITE_REQUEST_CODE = 10;
-
-    List<Stops> stopList;
-    Context context = this;
-    TextView saved_text;
-
-    Button switchActivity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,97 +75,5 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-        //DB_function db_function = new DB_function();
-        //db_function.execute();
-
-        if (hasPermission()) {
-            //startCamera(); //start camera if permission has been granted by user;
-        }
-        else {
-            ActivityCompat.requestPermissions(this, PERMISSIONS_REQUIRED, READ_WRITE_REQUEST_CODE);
-        }
     }
-/*
-    private boolean hasReadPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, PERMISSION_READ, READ_REQUEST_CODE);
-            return false;
-        }
-        return true;
-    }
-
-    private boolean hasWritePermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, PERMISSION_WRITE, WRITE_REQUEST_CODE);
-            return false;
-        }
-        return true;
-    }
-
- */
-
-    private boolean hasPermission(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == READ_WRITE_REQUEST_CODE) {
-            if (hasPermission()) {
-                Toast.makeText(this, "It's all alright now!", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Toast.makeText(this, "Read/Write permission required for app.", Toast.LENGTH_LONG).show();
-                this.finish();
-            }
-        }
-    }
-
-    //********************************************
-    //Database
-    //********************************************
-    public class DB_function extends AsyncTask<Integer, String, Integer> {
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-
-            StopDatabase stopDatabase = StopDatabase.getInstance(context);
-
-
-            Stops newStop = new Stops (java.util.Calendar.getInstance().getTime());
-
-
-            //newStop.setId(1);
-
-            newStop.setDateTime(new Date());
-            newStop.setStreet("Woodlawn");
-            newStop.setCity("Guelph");
-            newStop.setStart_odometer(101255);
-            newStop.setEnd_odometer(101275);
-
-            //stopDatabase.stopsDAO().updateStop(newStop);
-
-            stopDatabase.stopsDAO().insertStop(newStop);
-            //stopDatabase.stopsDAO().deleteById(4);
-            //stopList = stopDatabase.Dao().loadAllStops();
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-
-            //saved_text.setText(String.valueOf(stopList.size()));
-            //saved_text.setText(String.valueOf(stopList.get(0).getDate()));
-        }
-    }
-
 }

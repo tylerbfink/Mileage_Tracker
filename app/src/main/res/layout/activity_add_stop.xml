@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:inputType="text"
-            android:maxLength="15"
+            android:maxLength="20"
             android:maxLines="1"
             android:textSize="18sp" />
 
@@ -69,17 +69,29 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/favourite_button"
+        android:id="@+id/add_favourite_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/nunito"
         android:padding="5dp"
-        android:text="@string/favourite_street_city"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/add_favourite"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/use_favourite_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textfield2" />
+
+    <Button
+        android:id="@+id/use_favourite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:padding="5dp"
+        android:text="@string/use_favourite"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/add_favourite_button"
+        app:layout_constraintTop_toTopOf="@+id/add_favourite_button" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textfield3"
@@ -92,7 +104,7 @@
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favourite_button">
+        app:layout_constraintTop_toBottomOf="@+id/use_favourite_button">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/date_edittext"

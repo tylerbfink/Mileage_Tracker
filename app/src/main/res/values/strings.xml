@@ -11,10 +11,17 @@
     <string name="hint_end_km">Ending KM</string>
     <string name="save_stop">Save</string>
     <string name="back">Back</string>
-    <string name="favourite_street_city">Favourite Street/City</string>
+    <string name="use_favourite">Use Favourite</string>
+    <string name="add_favourite">Add as Favourite</string>
     <string name="open_camera">Open Camera</string>
     <string name="edit_stop_title">Edit Stop</string>
-    <string name="click_stop">Click Stop to Edit</string>
+    <string name="click_stop">Touch to Edit / Swipe to Delete</string>
+    <string name="confirm_delete_title">Delete Stop</string>
+    <string name="confirm_delete_message">Confirm you want to delete stop?</string>
+    <string name="confirm_delete_favourite_title">Delete Favourite</string>
+    <string name="confirm_delete_favourite_message">Confirm delete favourite?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="main_options_array">
         <item>Add Stop</item>
