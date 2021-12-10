@@ -135,7 +135,7 @@ public class CameraActivity extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
-
+    //binds camera to analyzer
     private void bindImageAnalysis(@NonNull ProcessCameraProvider cameraProvider) {
         Preview preview = new Preview.Builder()
                 .build();
@@ -160,7 +160,7 @@ public class CameraActivity extends AppCompatActivity {
                     imageProcess = InputImage.fromMediaImage(mediaImage, image.getImageInfo().getRotationDegrees());
                 }
 
-                // only allows update to
+                //slows images going for analysis
                 if (SystemClock.elapsedRealtime() - mLastAnalysisResultTime < 100) {
                     image.close();
                     return;
@@ -170,6 +170,7 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
 
+        //allows cropping of camera image
         ViewPort viewPort = ((PreviewView)findViewById(R.id.previewView)).getViewPort();
 
         UseCaseGroup useCaseGroup = new UseCaseGroup.Builder()
@@ -185,7 +186,6 @@ public class CameraActivity extends AppCompatActivity {
 
     // text processing
     private void recognizeText(InputImage image) {
-
 
         Task<Text> result = recognizer.process(image)
                 .addOnSuccessListener(new OnSuccessListener<Text>() { //successful text recognition

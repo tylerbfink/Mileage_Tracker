@@ -33,15 +33,16 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    //permissions for gps location
     private static final String[] PERMISSIONS_REQUIRED = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
     private static final int LOCATION_REQUEST_CODE = 10;
 
-    private final String SAVED_FAVOURITES = "SavedFavourites.txt";
-
+    private final String SAVED_FAVOURITES = "SavedFavourites.txt"; //favourite stop file name
 
     TextInputEditText street_edittext, city_edittext;
     TextInputEditText date_edittext, starting_km_edittext, ending_km_edittext;
@@ -79,6 +80,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         add_favourite_button = findViewById(R.id.add_favourite_button);
         use_favourite_button = findViewById(R.id.use_favourite_button);
 
+        //listener to save street/city as favourite
         add_favourite_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +114,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
             }
         });
 
+        //listener to load a saved favourite
         use_favourite_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +126,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
             }
         });
 
+        //presets time in form to current date/time
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy - hh:mm a");
         Calendar calendar = Calendar.getInstance();
         selectedDate = calendar.getTime();
@@ -185,12 +189,12 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
             }
         });
 
-        // checks if location permissions have been given or asks for them
+        //checks if location permissions have been given or asks for them
         if (!hasPermission()) {
             ActivityCompat.requestPermissions(this, PERMISSIONS_REQUIRED, LOCATION_REQUEST_CODE);
         }
 
-        //
+        //loads street/city from favourite intent or gps position
         if (getIntent() != null && getIntent().getExtras() != null) {
             Intent intent = getIntent();
                 street_edittext.setText(intent.getExtras().getString("STREET"));
@@ -211,7 +215,9 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
             }
         }
 
-        loadData(getBaseContext());
+        //retrieves data from sharedpreferences - deactivated as causing
+        //issue with overriding gps position on start of activity
+        //loadData(getBaseContext());
     }
 
     // returns true if location permissions already granted
@@ -241,6 +247,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         finish();
     }
 
+    //after pick of date -> launches time picker
     @Override
     public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
         calendar = Calendar.getInstance();
@@ -254,6 +261,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         timePickerDialog.show(getSupportFragmentManager(), "PICK TIME");
     }
 
+    //after pick of time
     @Override
     public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
@@ -266,6 +274,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         date_edittext.setText(selectedDateString);
     }
 
+    //saves form info into new stop
     private void saveStop(String stopStreet, String stopCity,
                           Date date, Float km_start, Float km_end) {
 
@@ -284,12 +293,13 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
             newStop.setEnd_odometer(km_end);
         }
 
+        //inserts stop into db
         stopsViewModel.insert(newStop);
+
         Toast.makeText(this, "Stop saved... ", Toast.LENGTH_SHORT).show();
     }
 
-
-    //writes current favourite to file
+    //writes current favourite to favourites file
     private void saveFavourite(Favourite favourite) throws IOException {
         if (fileExists(SAVED_FAVOURITES)) {
 
@@ -314,7 +324,6 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         if (!file.exists()) {
             file.createNewFile();
         }
-
         return file.exists();
     }
 
@@ -323,10 +332,10 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         SharedPreferences formData = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor formDataEditor = formData.edit();
 
-        if (street_edittext.getText().toString().trim().length() > 0) {
+        if (Objects.requireNonNull(street_edittext.getText()).toString().trim().length() > 0) {
             formDataEditor.putString("streetKey", street_edittext.getText().toString());
         }
-        if (city_edittext.getText().toString().trim().length() > 0) {
+        if (Objects.requireNonNull(city_edittext.getText()).toString().trim().length() > 0) {
             formDataEditor.putString("cityKey", city_edittext.getText().toString());
         }
         formDataEditor.putString("dateKey", date_edittext.getText().toString());
@@ -336,7 +345,6 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         if (ending_km_edittext.getText().toString().trim().length() > 0) {
             formDataEditor.putString("kmEndKey", ending_km_edittext.getText().toString());
         }
-
         formDataEditor.commit();
     }
 
@@ -375,7 +383,5 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
 
         formDataEditor.clear();
         formDataEditor.commit();
-
     }
-
 }

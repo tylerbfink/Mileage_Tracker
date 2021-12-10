@@ -37,6 +37,15 @@ public class SendLog extends AppCompatActivity implements DatePickerDialog.OnDat
         send_current_button = findViewById(R.id.send_current_button);
         send_custom_button = findViewById(R.id.send_custom_button);
 
+        //listener to send current week (Saturday - Friday) stops by email
+        send_current_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        //listener to get start date
         start_date_edittext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +56,7 @@ public class SendLog extends AppCompatActivity implements DatePickerDialog.OnDat
             }
         });
 
+        //listener to get end date
         end_date_edittext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +67,7 @@ public class SendLog extends AppCompatActivity implements DatePickerDialog.OnDat
             }
         });
 
+        //listener to send custom dates log by email
         send_custom_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +100,7 @@ public class SendLog extends AppCompatActivity implements DatePickerDialog.OnDat
         finish();
     }
 
+    //sets date in variables after picking
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         if (startFlag = true) {

@@ -14,17 +14,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class EditStops extends AppCompatActivity {
+//class to edit/delete stops
+public class EditStops extends AppCompatActivity implements Serializable {
 
     StopsViewModel stopsViewModel;
+    Stops stopEdited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_stops);
 
+        //recyclerView to load all stops into view
         RecyclerView recyclerView = findViewById(R.id.stops_recycler);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
         linearLayoutManager.setStackFromEnd(true);
@@ -43,40 +47,45 @@ public class EditStops extends AppCompatActivity {
             }
         });
 
-        //deletes stop on swipe left or swipe right
+        //touch actions of recyclerView items
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
+            //action on swipe of stop (delete)
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 new AlertDialog.Builder(viewHolder.itemView.getContext())
-                    .setTitle(R.string.confirm_delete_title)
-                    .setMessage(R.string.confirm_delete_message)
-                    .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        stopsViewModel.delete(adapter.getStopAtPosition(viewHolder.getAdapterPosition()));
-                        Toast.makeText(EditStops.this, "Stop deleted", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        adapter.notifyItemChanged(viewHolder.getAdapterPosition());
-                    }
-                })
-                    .create()
-                    .show();
+                        .setTitle(R.string.confirm_delete_title)
+                        .setMessage(R.string.confirm_delete_message)
+                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                stopsViewModel.delete(adapter.getStopAtPosition(viewHolder.getAdapterPosition()));
+                                Toast.makeText(EditStops.this, "Stop deleted", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                adapter.notifyItemChanged(viewHolder.getAdapterPosition());
+                            }
+                        })
+                        .create()
+                        .show();
             }
         }).attachToRecyclerView(recyclerView);
 
+        //listener opens pressed stop into EditStop activity
         adapter.setOnItemClickListener(new StopsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Stops stops) {
-                Toast.makeText(EditStops.this, "Stop clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(EditStops.this, EditStop.class);
+                intent.putExtra("stopToEdit", stops);
+                startActivity(intent);
+                finish();
             }
         });
     }

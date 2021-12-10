@@ -53,6 +53,7 @@ public class StopsAdapter extends ListAdapter<Stops, StopsAdapter.StopHolder> {
         return new StopHolder(itemView);
     }
 
+    //binds stops to recyclerView
     @Override
     public void onBindViewHolder(@NonNull StopHolder holder, int position) {
         Stops currentStop = stops.get(position);
@@ -81,6 +82,7 @@ public class StopsAdapter extends ListAdapter<Stops, StopsAdapter.StopHolder> {
         }
     }
 
+    //returns number of stops
     @Override
     public int getItemCount() {
         return stops.size();
@@ -91,11 +93,12 @@ public class StopsAdapter extends ListAdapter<Stops, StopsAdapter.StopHolder> {
         notifyDataSetChanged();
     }
 
+    //returns stop at position in recyclerView
     public Stops getStopAtPosition (int position) {
         return stops.get(position);
     }
 
-
+    //inner viewHolder class to populate recyclerView of stops
     class StopHolder extends RecyclerView.ViewHolder {
         TextView stop_date_text, street_text, city_text;
         TextView start_km_text, end_km_text;
@@ -107,7 +110,6 @@ public class StopsAdapter extends ListAdapter<Stops, StopsAdapter.StopHolder> {
             city_text = view.findViewById(R.id.stop_city_text);
             start_km_text = view.findViewById(R.id.start_km_text);
             end_km_text = view.findViewById(R.id.end_km_text);
-
 
             // adding on click listener for each item of recycler view.
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -123,9 +125,12 @@ public class StopsAdapter extends ListAdapter<Stops, StopsAdapter.StopHolder> {
         }
     }
 
+    //interface for recyclerView custom onClick
     public interface OnItemClickListener {
         void onItemClick(Stops stops);
     }
+
+    //creates onclick listener for recyclerView items
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }

@@ -4,7 +4,7 @@ import androidx.room.TypeConverter;
 
 import java.util.Date;
 
-
+//converts date <--> long for saving in db
 public class Converters {
     @TypeConverter
     public static Date fromTimestamp(Long value) {

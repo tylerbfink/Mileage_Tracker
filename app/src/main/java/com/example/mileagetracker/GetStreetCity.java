@@ -5,6 +5,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.widget.Toast;
 
@@ -12,13 +13,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+//returns device street and city if available
 public class GetStreetCity {
 
     public static String gpsCity = "";
     public static String gpsStreet = "";
 
     private static List<Address> currentFullAddress;
-
 
     public static void getPosition(Context context) throws IOException {
 
@@ -33,7 +34,6 @@ public class GetStreetCity {
             gpsCity = currentFullAddress.get(0).getLocality();
         }
         catch (NullPointerException e) {
-            //Toast.makeText(context, "Location not found!", Toast.LENGTH_SHORT).show();
         }
     }
 }

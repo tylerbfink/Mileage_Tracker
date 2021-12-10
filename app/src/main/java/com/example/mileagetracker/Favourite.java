@@ -1,5 +1,6 @@
 package com.example.mileagetracker;
 
+//favourite class for favourite street/city pairs
 public class Favourite {
 
     String street;

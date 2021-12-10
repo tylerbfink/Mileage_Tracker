@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+//loads favourites into list from favourites file
 public class ReadFavourites {
 
     List<Favourite> favouriteStopList = Collections.synchronizedList(new ArrayList<Favourite>());
@@ -20,6 +21,7 @@ public class ReadFavourites {
 
     public List<Favourite> readFile(Context context) {
 
+        //reads file if available
         if (fileExists(context, SAVED_FAVOURITES)) {
             FileInputStream fis = null;
             try {
@@ -48,7 +50,6 @@ public class ReadFavourites {
                 e.printStackTrace();
             }
         }
-
         return favouriteStopList;
     }
 

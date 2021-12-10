@@ -31,27 +31,4 @@ public abstract class StopDatabase extends RoomDatabase {
         }
         return instance;
     }
-
-    /*
-    //callback for stopsDB
-    private static RoomDatabase.Callback stopDbCallback = new RoomDatabase.Callback() {
-        @Override
-        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onCreate(db);
-            new dbAsyncTask(sInstance).execute();
-        }
-    };
-
-    //async task to complete DB calls
-    private static class dbAsyncTask extends AsyncTask<Void, Void, Void> {
-        dbAsyncTask(StopDatabase instance) {
-            StopsDAO stopsDAO = instance.stopsDAO();
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            return null;
-        }
-    }
-
-     */
 }

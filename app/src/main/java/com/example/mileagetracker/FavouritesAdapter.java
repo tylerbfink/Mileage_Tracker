@@ -63,11 +63,13 @@ public class FavouritesAdapter extends ListAdapter<Favourite, FavouritesAdapter.
         }
     }
 
+    //returns size of favourites list
     @Override
     public int getItemCount() {
         return favourites.size();
     }
 
+    //inner class viewHolder for favourites recyclerView
     class FavouriteHolder extends RecyclerView.ViewHolder {
         TextView street_text, city_text;
 
@@ -75,7 +77,6 @@ public class FavouritesAdapter extends ListAdapter<Favourite, FavouritesAdapter.
             super(view);
             street_text = view.findViewById(R.id.street_text);
             city_text = view.findViewById(R.id.city_text);
-
 
             // adding on click listener for each item of recycler view.
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -91,14 +92,17 @@ public class FavouritesAdapter extends ListAdapter<Favourite, FavouritesAdapter.
         }
     }
 
+    //interface for recyclerView custom onClick
     public interface OnItemClickListener {
         void onItemClick(Favourite favourite);
     }
 
+    //creates onclick listener for recyclerView items
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
+    //removes favourite from list
     public static void deleteFavouriteAtPosition(int position) {
         FavouritesAdapter.favourites.remove(position);
     }

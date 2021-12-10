@@ -31,6 +31,7 @@ public class Favourites extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
 
+        //recyclerView to see all saved favourites
         RecyclerView recyclerView = findViewById(R.id.favourites_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(false);
@@ -38,13 +39,14 @@ public class Favourites extends AppCompatActivity {
         final FavouritesAdapter adapter = new FavouritesAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        //deletes stop on swipe left or swipe right
+        //touch actions of recyclerView items
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
+            //action on swipe of favourite (delete)
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 new AlertDialog.Builder(viewHolder.itemView.getContext())
@@ -75,6 +77,7 @@ public class Favourites extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
 
+        //listener to use pressed favourite in addStop activity
         adapter.setOnItemClickListener(new FavouritesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Favourite favourite) {
@@ -122,6 +125,8 @@ public class Favourites extends AppCompatActivity {
         finish();
     }
 
+    //saves selected street/city combo to sharedpreferences with flga
+    //to notify addStop to load
     private void modifyShared(Context context) {
         SharedPreferences formData = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor formDataEditor = formData.edit();
