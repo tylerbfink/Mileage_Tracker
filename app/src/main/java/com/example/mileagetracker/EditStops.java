@@ -26,7 +26,10 @@ public class EditStops extends AppCompatActivity {
         setContentView(R.layout.activity_edit_stops);
 
         RecyclerView recyclerView = findViewById(R.id.stops_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager.setStackFromEnd(true);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(false);
 
         final StopsAdapter adapter = new StopsAdapter();

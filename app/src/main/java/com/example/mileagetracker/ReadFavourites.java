@@ -37,7 +37,7 @@ public class ReadFavourites {
                 while ((sLine = br.readLine()) != null) {
                     ArrayList<String> tempArray = new ArrayList<String>(Arrays.asList(sLine.split(",")));
                     Favourite favourite = new Favourite(tempArray.get(0));
-                    if (tempArray.get(1).length() != 0) {
+                    if (tempArray.size() > 1) {
                         favourite.setCity(tempArray.get(1));
                     }
 
@@ -47,7 +47,6 @@ public class ReadFavourites {
             catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
 
         return favouriteStopList;

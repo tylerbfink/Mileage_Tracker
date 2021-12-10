@@ -4,12 +4,13 @@ package com.example.mileagetracker;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity(tableName = "stops")
 
-public class Stops {
+public class Stops implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     Integer id;

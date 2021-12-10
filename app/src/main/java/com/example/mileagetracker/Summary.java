@@ -22,7 +22,10 @@ public class Summary extends AppCompatActivity {
         setContentView(R.layout.activity_summary);
 
         RecyclerView recyclerView = findViewById(R.id.stops_recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager.setStackFromEnd(true);
+
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(false);
 
         final StopsAdapter adapter = new StopsAdapter();

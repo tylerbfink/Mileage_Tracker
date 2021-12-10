@@ -7,6 +7,7 @@
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/drawable/ic_shutter_focused.xml" value="0.3828125" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/drawable/ic_shutter_normal.xml" value="0.3828125" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/drawable/ic_shutter_pressed.xml" value="0.3828125" />
+        <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_about.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_add_stop.xml" value="0.2509057971014493" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_camera.xml" value="0.2441123188405797" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_camera_capture.xml" value="0.2441123188405797" />
@@ -14,6 +15,8 @@
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_favourites.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_main2.xml" value="0.25905797101449274" />
+        <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_send_log.xml" value="0.2463768115942029" />
+        <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_settings.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/activity_summary.xml" value="0.2509057971014493" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/favourites_view.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/tyler/AndroidStudioProjects/Mileage_Tracker/app/src/main/res/layout/main_view.xml" value="0.2509057971014493" />

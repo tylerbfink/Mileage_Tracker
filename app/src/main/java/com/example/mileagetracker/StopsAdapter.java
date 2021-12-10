@@ -73,11 +73,11 @@ public class StopsAdapter extends ListAdapter<Stops, StopsAdapter.StopHolder> {
         }
 
         if (currentStop.getStart_odometer() != 0) {
-            holder.start_km_text.setText("Start: " + String.valueOf(currentStop.getStart_odometer()));
+            holder.start_km_text.setText("Start: " + String.valueOf(currentStop.getStart_odometer()) + " km");
         }
 
         if (currentStop.getEnd_odometer() != 0) {
-            holder.end_km_text.setText("End: " + String.valueOf(currentStop.getEnd_odometer()));
+            holder.end_km_text.setText("End: " + String.valueOf(currentStop.getEnd_odometer()) + " km");
         }
     }
 

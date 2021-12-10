@@ -2,3 +2,8 @@ https://www.geeksforgeeks.org/how-to-perform-crud-operations-in-room-database-in
 https://www.geeksforgeeks.org/datepickerdialog-in-android/
 activity_main.xml used from Tic Tac Toe app
 
+https://www.geeksforgeeks.org/how-to-save-arraylist-to-sharedpreferences-in-android/
+
+
+https://github.com/wdullaer/MaterialDateTimePicker#implement-an-ontimesetlistenerondatesetlistener
+https://stackoverflow.com/questions/38604157/android-date-time-picker-in-one-dialog

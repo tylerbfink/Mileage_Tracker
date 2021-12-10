@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FavouritesAdapter extends ListAdapter<Favourite, FavouritesAdapter.FavouriteHolder> {
@@ -27,6 +28,7 @@ public class FavouritesAdapter extends ListAdapter<Favourite, FavouritesAdapter.
         super(DIFF_CALLBACK);
         ReadFavourites readFavourites = new ReadFavourites();
         favourites = readFavourites.readFile(context);
+        Collections.reverse(favourites);
     }
 
     // creating a call back for item of recycler view.
@@ -59,8 +61,8 @@ public class FavouritesAdapter extends ListAdapter<Favourite, FavouritesAdapter.
         if (favourite.getCity().length() != 0) {
             holder.city_text.setText(favourite.getCity());
         }
-
     }
+
     @Override
     public int getItemCount() {
         return favourites.size();
@@ -99,13 +101,5 @@ public class FavouritesAdapter extends ListAdapter<Favourite, FavouritesAdapter.
 
     public static void deleteFavouriteAtPosition(int position) {
         FavouritesAdapter.favourites.remove(position);
-
-
     }
-
-    public Favourite getFavouriteAtPosition(int position) {
-        return favourites.get(position);
-    }
-
-
 }

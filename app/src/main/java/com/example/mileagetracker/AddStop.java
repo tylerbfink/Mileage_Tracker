@@ -8,11 +8,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -32,18 +35,20 @@ import java.util.Date;
 import java.util.List;
 
 
-public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private static final String[] PERMISSIONS_REQUIRED = new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
     private static final int LOCATION_REQUEST_CODE = 10;
 
     private final String SAVED_FAVOURITES = "SavedFavourites.txt";
 
+
     TextInputEditText street_edittext, city_edittext;
     TextInputEditText date_edittext, starting_km_edittext, ending_km_edittext;
     Button add_favourite_button, use_favourite_button;
     Button back_button, save_stop_button, open_camera;
 
+    Calendar calendar;
     Date selectedDate;
     StopsViewModel stopsViewModel;
 
@@ -95,7 +100,6 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
 
                     try {
                         saveFavourite(tempFavourite);
-                        //Toast.makeText(AddStop.this, "Favourite saved! ", Toast.LENGTH_SHORT).show();
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -111,6 +115,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         use_favourite_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveData(getBaseContext());
                 Intent intent = new Intent();
                 intent = new Intent(AddStop.this, Favourites.class);
                 startActivity(intent);
@@ -128,6 +133,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         open_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                saveData(getBaseContext());
                 Intent intent = new Intent(AddStop.this, CameraActivity.class);
                 startActivity(intent);
                 finish();
@@ -162,7 +168,8 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
                 String stopStreet = street_edittext.getText().toString();
                 String stopCity = city_edittext.getText().toString();
 
-                if (selectedDate != null) {
+
+                if (stopStreet.length() != 0) {
                     stopDate = selectedDate;
                     if (!starting_km_edittext.getText().toString().equals("")) {
                         stopStartKM = Float.valueOf(starting_km_edittext.getText().toString());
@@ -173,7 +180,7 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
                     saveStop(stopStreet, stopCity, stopDate, stopStartKM, stopEndKM);
                 }
                 else {
-                    dateRequired();
+                    Toast.makeText(getApplicationContext(), "Street required to save!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -183,27 +190,28 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
             ActivityCompat.requestPermissions(this, PERMISSIONS_REQUIRED, LOCATION_REQUEST_CODE);
         }
 
-        Context context = this;
-        try {
-            GetStreetCity.getPosition(context);
-            if (!GetStreetCity.gpsStreet.equals("")) {
-                street_edittext.setText(GetStreetCity.gpsStreet);
+        //
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            Intent intent = getIntent();
+                street_edittext.setText(intent.getExtras().getString("STREET"));
+                city_edittext.setText(intent.getExtras().getString("CITY"));
+        }
+        else {
+            try {
+                GetStreetCity.getPosition(this);
+                if (!GetStreetCity.gpsStreet.equals("")) {
+                    street_edittext.setText(GetStreetCity.gpsStreet);
+                }
+                if (!GetStreetCity.gpsCity.equals("")) {
+                    city_edittext.setText(GetStreetCity.gpsCity);
+                }
             }
-            if (!GetStreetCity.gpsCity.equals("")) {
-                city_edittext.setText(GetStreetCity.gpsCity);
+            catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        //TextInputEditText city_edittext = findViewById(R.id.input_edit_text);
-        //city_edittext.setText("Garbage...");
-    }
-
-    //toasts if data missing when save button pressed
-    public void dateRequired() {
-        Toast.makeText(this, "Date required to save!", Toast.LENGTH_SHORT).show();
+        loadData(getBaseContext());
     }
 
     // returns true if location permissions already granted
@@ -235,16 +243,25 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
 
     @Override
     public void onDateSet(android.widget.DatePicker datePicker, int year, int month, int day) {
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy - hh:mm a");
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
 
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
 
+        TimePicker timePickerDialog;
+        timePickerDialog = new TimePicker();
+        timePickerDialog.show(getSupportFragmentManager(), "PICK TIME");
+    }
+
+    @Override
+    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+
         selectedDate = calendar.getTime();
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy - hh:mm a");
         String selectedDateString = dateFormat.format(selectedDate);
         date_edittext.setText(selectedDateString);
     }
@@ -299,6 +316,66 @@ public class AddStop extends AppCompatActivity implements DatePickerDialog.OnDat
         }
 
         return file.exists();
+    }
+
+    //saves form data in sharedPreference if available
+    public void saveData(Context context) {
+        SharedPreferences formData = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor formDataEditor = formData.edit();
+
+        if (street_edittext.getText().toString().trim().length() > 0) {
+            formDataEditor.putString("streetKey", street_edittext.getText().toString());
+        }
+        if (city_edittext.getText().toString().trim().length() > 0) {
+            formDataEditor.putString("cityKey", city_edittext.getText().toString());
+        }
+        formDataEditor.putString("dateKey", date_edittext.getText().toString());
+        if (starting_km_edittext.getText().toString().trim().length() > 0) {
+            formDataEditor.putString("kmStartKey", starting_km_edittext.getText().toString());
+        }
+        if (ending_km_edittext.getText().toString().trim().length() > 0) {
+            formDataEditor.putString("kmEndKey", ending_km_edittext.getText().toString());
+        }
+
+        formDataEditor.commit();
+    }
+
+    //loads form data in sharedPreference if available
+    public void loadData(Context context) {
+        SharedPreferences formData = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor formDataEditor = formData.edit();
+
+        if (formData.getString("streetKey", "") != null &&
+                !formData.getString("streetKeyFlag", "").equals("true")) {
+            street_edittext.setText(formData.getString("streetKey", ""));
+        }
+        if (formData.getString("cityKey", "") != null &&
+                !formData.getString("cityKeyFlag", "").equals("true")) {
+            city_edittext.setText(formData.getString("cityKey", ""));
+        }
+        if (formData.getString("dateKey", "") != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy - hh:mm a");
+            Calendar calendar = Calendar.getInstance();
+            try {
+                calendar.setTime(dateFormat.parse(formData.getString("dateKey", "")));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            selectedDate = calendar.getTime();
+            String selectedDateString = dateFormat.format(selectedDate);
+            date_edittext.setText(selectedDateString);
+
+        }
+        if (formData.getString("dateKey", "") != null) {
+            starting_km_edittext.setText(formData.getString("kmStartKey", ""));
+        }
+        if (formData.getString("dateKey", "") != null) {
+            ending_km_edittext.setText(formData.getString("kmEndKey", ""));
+        }
+
+        formDataEditor.clear();
+        formDataEditor.commit();
+
     }
 
 }

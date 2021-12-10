@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import java.io.File;
@@ -76,7 +78,12 @@ public class Favourites extends AppCompatActivity {
         adapter.setOnItemClickListener(new FavouritesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Favourite favourite) {
-                Toast.makeText(getApplicationContext(), "Favourite clicked", Toast.LENGTH_SHORT).show();
+                modifyShared(getBaseContext());
+                Intent intent = new Intent(Favourites.this, AddStop.class);
+                intent.putExtra("STREET", favourite.getStreet());
+                intent.putExtra("CITY", favourite.getCity());
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -113,5 +120,14 @@ public class Favourites extends AppCompatActivity {
         Intent intent = new Intent(Favourites.this, AddStop.class);
         startActivity(intent);
         finish();
+    }
+
+    private void modifyShared(Context context) {
+        SharedPreferences formData = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor formDataEditor = formData.edit();
+
+        formDataEditor.putString("streetKeyFlag", "true");
+        formDataEditor.putString("cityKeyFlag", "true");
+        formDataEditor.commit();
     }
 }
