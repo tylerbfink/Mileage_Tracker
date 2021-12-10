@@ -21,6 +21,7 @@ public class Summary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
+        //recyclerView to show stops
         RecyclerView recyclerView = findViewById(R.id.stops_recycler);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
         linearLayoutManager.setStackFromEnd(true);

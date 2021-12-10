@@ -10,6 +10,7 @@ import androidx.room.Update;
 import java.util.Date;
 import java.util.List;
 
+//db functions
 @androidx.room.Dao
 public interface StopsDAO {
 
@@ -24,12 +25,6 @@ public interface StopsDAO {
 
     @Delete
     void deleteStop(Stops stops);
-
-    @Query("DELETE FROM STOPS WHERE id = :id")
-    void deleteById(int id);
-
-    @Query("Select * from STOPS where id = :id")
-    Stops loadStopByID(int id);
 
     @Query("Select * from STOPS where dateTime = :dateTime")
     Stops loadStopByDate(Date dateTime);

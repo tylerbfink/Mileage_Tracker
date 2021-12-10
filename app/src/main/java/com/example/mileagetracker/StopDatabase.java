@@ -11,6 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import androidx.room.TypeConverters;
 
+//creates stops db
 @Database(entities = {Stops.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class StopDatabase extends RoomDatabase {

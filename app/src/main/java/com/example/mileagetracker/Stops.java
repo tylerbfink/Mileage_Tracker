@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+//table containing stops for db
 @Entity(tableName = "stops")
 
 public class Stops implements Serializable {

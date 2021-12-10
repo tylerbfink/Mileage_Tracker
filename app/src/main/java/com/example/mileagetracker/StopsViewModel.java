@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+//viewModel to communicate with repository
 public class StopsViewModel extends AndroidViewModel {
 
     private StopsRepository stopsRepository;
